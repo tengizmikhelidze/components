@@ -24,7 +24,7 @@ export class CalendarInputComponent {
   //   return test
   // }
 
-  focusOut(valueSignal: WritableSignal<string | undefined>, type: 'day' | 'month' | 'year') {
+  focusOut(valueSignal: WritableSignal<string | undefined>, type: 'day' | 'month' | 'year', inputElement?: HTMLInputElement) {
     let valueNumber = Number(valueSignal());
 
     if(valueNumber < 10) {
@@ -45,6 +45,18 @@ export class CalendarInputComponent {
 
     if(valueNumber <= 0) {
       valueSignal.set('01')
+    }
+
+    if(inputElement) {
+      inputElement.focus()
+    }
+  }
+
+  startDayChange(event: string, inputElement?: HTMLInputElement) {
+    if(event.length === 2) {
+      if(inputElement) {
+        inputElement.focus()
+      }
     }
   }
 }
