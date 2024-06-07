@@ -1,4 +1,4 @@
-import {Component, model, WritableSignal} from '@angular/core';
+import {Component, model, output, WritableSignal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from "@angular/forms";
 
@@ -14,13 +14,12 @@ export class CalendarInputComponent {
   startDay = model<string | undefined>(undefined)
   startMonth = model<string | undefined>(undefined)
   startYear = model<string | undefined>(undefined)
+  inputClicked = output<HTMLDivElement>()
 
-  constructor() {
 
-  }
-
-  focusStartDay(startDayInput: HTMLInputElement) {
+  inputClickedHandler(startDayInput: HTMLInputElement, inputWrapperElement: HTMLDivElement) {
     startDayInput.focus()
+    this.inputClicked.emit(inputWrapperElement)
   }
 
   focusOut(valueSignal: WritableSignal<string | undefined>, type: 'day' | 'month' | 'year', inputElement?: HTMLInputElement) {

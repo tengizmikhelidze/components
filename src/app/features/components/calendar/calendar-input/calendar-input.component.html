@@ -1,4 +1,4 @@
-<div class="calendar-input-wrapper" (click)="focusStartDay(startDayInput)">
+<div class="calendar-input-wrapper" #inputWrapperElement (click)="inputClickedHandler(startDayInput, inputWrapperElement)">
     <div class="calendar-input-content">
         <input #startDayInput
                class="date-input date-input__start date-input__start__day"
