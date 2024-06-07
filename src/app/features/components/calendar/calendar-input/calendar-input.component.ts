@@ -1,4 +1,4 @@
-import {Component, signal, WritableSignal} from '@angular/core';
+import {Component, EventEmitter, Output, signal, WritableSignal} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
 
@@ -10,19 +10,17 @@ import {FormsModule} from "@angular/forms";
   styleUrl: './calendar-input.component.scss',
 })
 export class CalendarInputComponent {
-  startDay = signal<string | undefined>(undefined)
-  startMonth = signal<string | undefined>(undefined)
-  startYear = signal<string | undefined>(undefined)
+  startDaySignal = signal<string | undefined>(undefined)
+  startMonthSignal = signal<string | undefined>(undefined)
+  startYearSignal = signal<string | undefined>(undefined)
+
+  @Output() startDay: EventEmitter<string | undefined> = new EventEmitter<string | undefined>();
+  @Output() startMonth: EventEmitter<string | undefined> = new EventEmitter<string | undefined>();
+  @Output() startYear: EventEmitter<string | undefined> = new EventEmitter<string | undefined>();
+
   focusStartDay(startDayInput: HTMLInputElement) {
     startDayInput.focus()
   }
-
-  // preventText(event: KeyboardEvent) {
-  //   const numRegex = /^[0-9]*$/gm
-  //   const test = numRegex.test(event.key) || event.key === 'Backspace'
-  //
-  //   return test
-  // }
 
   focusOut(valueSignal: WritableSignal<string | undefined>, type: 'day' | 'month' | 'year', inputElement?: HTMLInputElement) {
     let valueNumber = Number(valueSignal());
@@ -52,8 +50,10 @@ export class CalendarInputComponent {
     }
   }
 
-  startDayChange(event: string, inputElement?: HTMLInputElement) {
-    if(event.length === 2) {
+  startDayChange(valueSignal: WritableSignal<string | undefined>,inputElement?: HTMLInputElement) {
+    let value = valueSignal();
+
+    if(value?.length === 2) {
       if(inputElement) {
         inputElement.focus()
       }

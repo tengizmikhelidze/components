@@ -9,4 +9,8 @@ import {CalendarInputComponent} from "./calendar-input/calendar-input.component"
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
 })
-export class CalendarComponent {}
+export class CalendarComponent {
+    cha($event: string | undefined) {
+        console.log($event)
+    }
+}
