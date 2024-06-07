@@ -1,0 +1,23 @@
+<div class="calendar-input-wrapper" (click)="focusStartDay(startDayInput)">
+    <div class="calendar-input-content">
+        <input #startDayInput
+               class="date-input date-input__start date-input__start__day"
+               placeholder="00"
+               (click)="$event.stopImmediatePropagation()"
+               (focusout)="focusOut(startDay, 'day')"
+               [(ngModel)]="startDay"
+        >
+        /
+        <input class="date-input date-input__start date-input__start__month"
+               placeholder="00"
+               (click)="$event.stopImmediatePropagation()"
+               (focusout)="focusOut(startMonth, 'month')"
+               [(ngModel)]="startMonth">
+        /
+        <input class="date-input date-input__start date-input__start__year"
+               placeholder="00"
+               (click)="$event.stopImmediatePropagation()"
+               (focusout)="focusOut(startYear, 'year')"
+               [(ngModel)]="startYear">
+    </div>
+</div>
