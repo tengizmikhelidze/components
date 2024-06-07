@@ -4,25 +4,25 @@
                class="date-input date-input__start date-input__start__day"
                placeholder="00"
                (click)="$event.stopImmediatePropagation()"
-               (focusout)="focusOut(startDaySignal, 'day', startMonthInput)"
-               (input)="startDayChange(startDaySignal, startMonthInput)"
-               [(ngModel)]="startDaySignal"
+               (focusout)="focusOut(startDay, 'day', startMonthInput)"
+               (input)="startDayChange(startDay, startMonthInput)"
+               [(ngModel)]="startDay"
         >
         /
         <input #startMonthInput
                class="date-input date-input__start date-input__start__month"
                placeholder="00"
                (click)="$event.stopImmediatePropagation()"
-               (focusout)="focusOut(startMonthSignal, 'month', startYearInput)"
-               (input)="startDayChange(startMonthSignal, startYearInput)"
-               [(ngModel)]="startMonthSignal">
+               (focusout)="focusOut(startMonth, 'month', startYearInput)"
+               (input)="startDayChange(startMonth, startYearInput)"
+               [(ngModel)]="startMonth">
         /
         <input #startYearInput
                class="date-input date-input__start date-input__start__year"
                placeholder="00"
                (click)="$event.stopImmediatePropagation()"
-               (focusout)="focusOut(startYearSignal, 'year')"
-               (input)="startDayChange(startYearSignal)"
-               [(ngModel)]="startYearSignal">
+               (focusout)="focusOut(startYear, 'year')"
+               (input)="startDayChange(startYear)"
+               [(ngModel)]="startYear">
     </div>
 </div>

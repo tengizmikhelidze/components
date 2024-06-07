@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Output, signal, WritableSignal} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, model, WritableSignal} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {FormsModule} from "@angular/forms";
 
 @Component({
@@ -10,13 +10,14 @@ import {FormsModule} from "@angular/forms";
   styleUrl: './calendar-input.component.scss',
 })
 export class CalendarInputComponent {
-  startDaySignal = signal<string | undefined>(undefined)
-  startMonthSignal = signal<string | undefined>(undefined)
-  startYearSignal = signal<string | undefined>(undefined)
 
-  @Output() startDay: EventEmitter<string | undefined> = new EventEmitter<string | undefined>();
-  @Output() startMonth: EventEmitter<string | undefined> = new EventEmitter<string | undefined>();
-  @Output() startYear: EventEmitter<string | undefined> = new EventEmitter<string | undefined>();
+  startDay = model<string | undefined>(undefined)
+  startMonth = model<string | undefined>(undefined)
+  startYear = model<string | undefined>(undefined)
+
+  constructor() {
+
+  }
 
   focusStartDay(startDayInput: HTMLInputElement) {
     startDayInput.focus()
