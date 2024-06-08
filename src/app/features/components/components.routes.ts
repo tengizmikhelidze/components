@@ -7,6 +7,11 @@ export const componentsRoutes: Route[] = [
         component: ComponentsComponent,
         children: [
             {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'calendar'
+            },
+            {
                 path: 'calendar',
                 loadChildren: () => import('./calendar/calendar.routes').then(r=>r.calendarRoutes)
             }
