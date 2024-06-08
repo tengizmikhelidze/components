@@ -10,6 +10,11 @@
 
   color: #2c2c2c;
   background: #ffffff;
+  font-size: 14px;
+
+  display: grid;
+  grid-row-gap: 20px;
+  grid-template-rows: auto 1fr;
 }
 
 .calendar-header {
@@ -42,12 +47,26 @@
     gap: 10px;
 
     font-weight: 400;
-    font-size: 14px;
 
     fa-icon {
       font-size: 12px;
       cursor: pointer;
       color: #2c2c2c;
     }
+  }
+}
+
+.calendar-data {
+
+}
+
+ul.calendar-data-weeks {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  justify-items: center;
+
+  li {
+    color: #999999;
+    font-size: 11px;
   }
 }
