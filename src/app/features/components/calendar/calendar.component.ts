@@ -4,6 +4,7 @@ import {CalendarInputComponent} from "./calendar-input/calendar-input.component"
 import {Overlay, OverlayConfig, OverlayRef, PositionStrategy} from "@angular/cdk/overlay";
 import {ComponentPortal, Portal} from "@angular/cdk/portal";
 import {CalendarUiComponent} from "./calendar-ui/calendar-ui.component";
+import {Observable, Subject, takeUntil, tap} from "rxjs";
 
 @Component({
     selector: 'app-calendar',
@@ -18,22 +19,37 @@ export class CalendarComponent {
     startMonth = signal('06')
     startYear = signal('2024')
     overlayRef = signal<OverlayRef | undefined>(undefined)
+    $destroyOverLayRef: Subject<void> = new Subject()
 
 
     inputClicked(attachToThis: ElementRef | undefined) {
         if (attachToThis && !this.overlayRef()) {
+            const overlayRef = this.createOverlay(attachToThis)
+
             this.overlayRef.set(this.createOverlay(attachToThis));
+            overlayRef.attach(this.createPortal());
+
+            this.listenBackdropChanges(overlayRef).subscribe()
         }
+    }
+
+    listenBackdropChanges(overlayRef: OverlayRef): Observable<any> {
+        return overlayRef.backdropClick()
+            .pipe(
+                takeUntil(this.$destroyOverLayRef),
+                tap(() => {
+                    overlayRef.detach()
+                    this.overlayRef.set(undefined);
+                    this.$destroyOverLayRef.next()
+                })
+            )
     }
 
     positionStrategy(attachToThis: ElementRef): PositionStrategy {
         return this.overlay.position()
             .flexibleConnectedTo(attachToThis)
-            .setOrigin(attachToThis)
-            .withPush(true)
             .withFlexibleDimensions(false)
             .withDefaultOffsetX(7)
-            .withLockedPosition(false)
             .withPositions(
                 [
                     {
@@ -54,11 +70,12 @@ export class CalendarComponent {
             positionStrategy: this.positionStrategy(attachToThis),
             disposeOnNavigation: true,
             hasBackdrop: true,
+            backdropClass: 'calendarBackDrop'
         })
     }
 
     createOverlay(attachToThis: ElementRef): OverlayRef {
-        return this.overlay.create(this.overlayConfig(attachToThis)).attach(this.createPortal())
+        return this.overlay.create(this.overlayConfig(attachToThis))
     }
 
     createPortal(): Portal<CalendarUiComponent> {
