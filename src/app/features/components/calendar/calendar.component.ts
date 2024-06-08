@@ -15,9 +15,9 @@ import {Observable, Subject, takeUntil, tap} from "rxjs";
 })
 export class CalendarComponent {
     private overlay = inject(Overlay);
-    startDay = signal('08')
-    startMonth = signal('06')
-    startYear = signal('2024')
+    startDay = signal(undefined)
+    startMonth = signal(undefined)
+    startYear = signal(undefined)
     overlayRef = signal<OverlayRef | undefined>(undefined)
     $destroyOverLayRef: Subject<void> = new Subject()
 
@@ -27,8 +27,11 @@ export class CalendarComponent {
             const overlayRef = this.createOverlay(attachToThis)
 
             this.overlayRef.set(this.createOverlay(attachToThis));
-            overlayRef.attach(this.createPortal());
+            const portal = overlayRef.attach(this.createPortal());
 
+            portal.instance.day = this.startDay
+            portal.instance.month = this.startMonth
+            portal.instance.year = this.startYear
             this.listenBackdropChanges(overlayRef).subscribe()
         }
     }
@@ -49,7 +52,7 @@ export class CalendarComponent {
         return this.overlay.position()
             .flexibleConnectedTo(attachToThis)
             .withFlexibleDimensions(false)
-            .withDefaultOffsetX(7)
+            .withDefaultOffsetY(5)
             .withPositions(
                 [
                     {
@@ -64,8 +67,8 @@ export class CalendarComponent {
 
     overlayConfig(attachToThis: ElementRef): OverlayConfig {
         return new OverlayConfig({
-            height: '200px',
-            width: '200px',
+            height: 'auto',
+            width: 'auto',
             panelClass: 'calendarOverlay',
             positionStrategy: this.positionStrategy(attachToThis),
             disposeOnNavigation: true,
@@ -78,7 +81,7 @@ export class CalendarComponent {
         return this.overlay.create(this.overlayConfig(attachToThis))
     }
 
-    createPortal(): Portal<CalendarUiComponent> {
+    createPortal(): ComponentPortal<CalendarUiComponent> {
         return new ComponentPortal(CalendarUiComponent)
     }
 }
