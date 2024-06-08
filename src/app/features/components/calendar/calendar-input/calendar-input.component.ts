@@ -23,7 +23,7 @@ export class CalendarInputComponent {
     this.inputClicked.emit(this.inputWrapperElement)
   }
 
-  focusOut(valueSignal: WritableSignal<string | undefined>, type: 'day' | 'month' | 'year', inputElement?: HTMLInputElement) {
+  focusOut(valueSignal: WritableSignal<string | undefined>, type: 'day' | 'month' | 'year') {
     let valueNumber = Number(valueSignal());
 
     if(valueNumber < 10) {
@@ -44,10 +44,6 @@ export class CalendarInputComponent {
 
     if(valueNumber <= 0) {
       valueSignal.set('01')
-    }
-
-    if(inputElement) {
-      inputElement.focus()
     }
   }
 

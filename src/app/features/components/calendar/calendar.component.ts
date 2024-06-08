@@ -17,11 +17,12 @@ export class CalendarComponent {
     startDay = signal('08')
     startMonth = signal('06')
     startYear = signal('2024')
+    overlayRef = signal<OverlayRef | undefined>(undefined)
 
 
     inputClicked(attachToThis: ElementRef | undefined) {
-        if (attachToThis) {
-            this.createOverlay(attachToThis)
+        if (attachToThis && !this.overlayRef()) {
+            this.overlayRef.set(this.createOverlay(attachToThis));
         }
     }
 

@@ -4,7 +4,7 @@
                class="date-input date-input__start date-input__start__day"
                placeholder="00"
                (click)="$event.stopImmediatePropagation()"
-               (focusout)="focusOut(startDay, 'day', startMonthInput)"
+               (focusout)="focusOut(startDay, 'day')"
                (input)="startDayChange(startDay, startMonthInput)"
                [(ngModel)]="startDay"
         >
@@ -13,7 +13,7 @@
                class="date-input date-input__start date-input__start__month"
                placeholder="00"
                (click)="$event.stopImmediatePropagation()"
-               (focusout)="focusOut(startMonth, 'month', startYearInput)"
+               (focusout)="focusOut(startMonth, 'month')"
                (input)="startDayChange(startMonth, startYearInput)"
                [(ngModel)]="startMonth">
         /
