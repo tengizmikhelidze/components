@@ -1,7 +1,7 @@
 .calendar-input-wrapper {
   box-sizing: border-box;
 
-  width: 250px;
+  width: 280px;
   height: 34px;
 
   border: 1px solid #e7e7e7;
@@ -13,6 +13,7 @@
   align-items: center;
 
   cursor: pointer;
+  color: #2c2c2c;
 }
 
 .calendar-input-content {
@@ -21,7 +22,7 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  color: #e7e7e7;
+  color: #2c2c2c;
 
   .date-input {
     height: 100%;
@@ -31,6 +32,10 @@
 
     border-radius: 4px;
     font-weight: 400;
+
+    &::placeholder {
+      color: #d2d2d2;
+    }
 
     &__start {
       &__year {

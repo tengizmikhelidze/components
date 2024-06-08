@@ -1,18 +1,18 @@
 <div class="calendar">
     <div class="calendar-header">
         <div class="calendar-header-actions">
-            <button>today</button>
+            <button (click)="setToday()">Today</button>
         </div>
         <div class="calendar-header-dates">
             <div class="dates-actions">
-                <fa-icon [icon]="chevronLeft" (click)="chevronMonth('left')"></fa-icon>
-                <p>{{month() ? month() : todayDate().getMonth() + 1}}</p>
-                <fa-icon [icon]="chevronRight" (click)="chevronMonth('left')"></fa-icon>
+                <fa-icon [icon]="chevronLeft" (click)="chevronHandler(month,'left')"></fa-icon>
+                <p>{{numberToMonth(month() ? month() : todayDate().getMonth() + 1)}}</p>
+                <fa-icon [icon]="chevronRight" (click)="chevronHandler(month,'right')"></fa-icon>
             </div>
             <div class="dates-actions">
-                <fa-icon [icon]="chevronLeft" (click)="chevronYear('left')"></fa-icon>
+                <fa-icon [icon]="chevronLeft" (click)="chevronHandler(year,'left')"></fa-icon>
                 <p>{{year() ? year() : todayDate().getFullYear()}}</p>
-                <fa-icon [icon]="chevronRight" (click)="chevronYear('right')"></fa-icon>
+                <fa-icon [icon]="chevronRight" (click)="chevronHandler(year,'right')"></fa-icon>
             </div>
         </div>
     </div>

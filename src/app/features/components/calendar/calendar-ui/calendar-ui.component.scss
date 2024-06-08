@@ -1,9 +1,53 @@
 .calendar {
-  width: 250px;
+  width: 280px;
   height: auto;
-  min-height: 200px;
+  min-height: 250px;
+  padding: 5px 10px;
 
 
   border: 1px solid #e7e7e7;
   border-radius: 8px;
+
+  color: #2c2c2c;
+  background: #ffffff;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.calendar-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  button {
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    padding: 4px 6px;
+  }
+}
+
+.calendar-header-dates {
+  justify-self: end;
+
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  .dates-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-weight: 400;
+    font-size: 14px;
+
+    fa-icon {
+      font-size: 12px;
+      cursor: pointer;
+      color: #2c2c2c;
+    }
+  }
 }

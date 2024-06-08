@@ -27,7 +27,7 @@ button {
   outline: none;
   box-shadow: none;
   border: none;
-  color: #ffffff;
+  color: inherit;
 }
 
 input {
@@ -35,6 +35,7 @@ input {
   padding: 0;
   margin: 0;
   border: none;
+  color: inherit;
 }
 
 /* Chrome, Safari, Edge, Opera */

@@ -1,8 +1,8 @@
-import {Component, ElementRef, inject, signal, ViewChild} from '@angular/core';
+import {Component, ElementRef, inject, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CalendarInputComponent} from "./calendar-input/calendar-input.component";
 import {Overlay, OverlayConfig, OverlayRef, PositionStrategy} from "@angular/cdk/overlay";
-import {ComponentPortal, Portal} from "@angular/cdk/portal";
+import {ComponentPortal} from "@angular/cdk/portal";
 import {CalendarUiComponent} from "./calendar-ui/calendar-ui.component";
 import {Observable, Subject, takeUntil, tap} from "rxjs";
 
