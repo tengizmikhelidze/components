@@ -21,7 +21,6 @@ export class CalendarComponent {
     overlayRef = signal<OverlayRef | undefined>(undefined)
     $destroyOverLayRef: Subject<void> = new Subject()
 
-
     inputClicked(attachToThis: ElementRef | undefined) {
         if (attachToThis && !this.overlayRef()) {
             const overlayRef = this.createOverlay(attachToThis)
@@ -52,12 +51,11 @@ export class CalendarComponent {
         return this.overlay.position()
             .flexibleConnectedTo(attachToThis)
             .withFlexibleDimensions(false)
-            .withDefaultOffsetY(5)
             .withPositions(
                 [
                     {
                         originX: 'start',
-                        originY: 'bottom',
+                        originY: 'top',
                         overlayX: 'start',
                         overlayY: 'top'
                     }

@@ -5,9 +5,11 @@
         </div>
         <div class="calendar-header-dates">
             <div class="dates-actions">
-                <fa-icon [icon]="chevronLeft" (click)="chevronHandler(month,'left')"></fa-icon>
-                <p>{{numberToMonth(month() ? month() : todayDate().getMonth() + 1)}}</p>
-                <fa-icon [icon]="chevronRight" (click)="chevronHandler(month,'right')"></fa-icon>
+                <fa-icon [icon]="chevronLeft"
+                         (click)="chevronHandler(month,'left', {maxValue: 11, minValue: 0})"></fa-icon>
+                <p>{{numberToMonth(month() ? month() : todayDate().getMonth())}}</p>
+                <fa-icon [icon]="chevronRight"
+                         (click)="chevronHandler(month,'right', {maxValue: 11, minValue: 0})"></fa-icon>
             </div>
             <div class="dates-actions">
                 <fa-icon [icon]="chevronLeft" (click)="chevronHandler(year,'left')"></fa-icon>
@@ -18,14 +20,22 @@
     </div>
     <div class="calendar-data">
         <ul class="calendar-data-weeks">
-         <li>Mo</li>
-         <li>Tu</li>
-         <li>We</li>
-         <li>Th</li>
-         <li>Fr</li>
-         <li>Sa</li>
-         <li>Su</li>
+            <li>Mo</li>
+            <li>Tu</li>
+            <li>We</li>
+            <li>Th</li>
+            <li>Fr</li>
+            <li>Sa</li>
+            <li>Su</li>
         </ul>
-        <ul class="calendar-data-dates"></ul>
+        <ul class="calendar-data-dates">
+            <ng-container *ngFor="let uiDate of generatedUi()">
+                <li [ngClass]="getUiClass(uiDate)">
+                    <div class="date">
+                        {{uiDate.date}}
+                    </div>
+                </li>
+            </ng-container>
+        </ul>
     </div>
 </div>

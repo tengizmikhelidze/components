@@ -1,6 +1,7 @@
-import {Component, ElementRef, model, output, ViewChild, WritableSignal} from '@angular/core';
+import {Component, computed, effect, ElementRef, model, output, signal, ViewChild, WritableSignal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from "@angular/forms";
+import {NumberToDateString} from "../utility/number-to-date-string.utility";
 
 @Component({
   selector: 'app-calendar-input',
@@ -14,6 +15,14 @@ export class CalendarInputComponent {
   startDay = model<string | undefined>(undefined)
   startMonth = model<string | undefined>(undefined)
   startYear = model<string | undefined>(undefined)
+
+  inputMonthValue = computed<string>(()=> {
+    if(this.startMonth()) {
+      return NumberToDateString(Number(this.startMonth()) + 1)
+    }
+
+    return ''
+  })
   @ViewChild('inputWrapperElement') inputWrapperElement: ElementRef | undefined;
   inputClicked = output<ElementRef | undefined>()
 
@@ -47,7 +56,7 @@ export class CalendarInputComponent {
     }
   }
 
-  startDayChange(valueSignal: WritableSignal<string | undefined>,inputElement?: HTMLInputElement) {
+  onChange(valueSignal: WritableSignal<string | undefined>, inputElement?: HTMLInputElement) {
     let value = valueSignal();
 
     if(value?.length === 2) {
