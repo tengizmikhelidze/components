@@ -3,4 +3,5 @@ export interface UiDate {
     date: number,
     year: number,
     monthIndex:  'prev' | 'next' | 'current',
+    selected: boolean
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, signal, WritableSignal} from '@angular/core';
+import {Component, model, OnInit, signal, WritableSignal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
@@ -23,6 +23,7 @@ export class CalendarUiComponent implements OnInit{
     month = signal<string | undefined>(undefined)
     year = signal<string | undefined>(undefined)
     generatedUi = signal<UiDate[]>([])
+    selectedDate = model<Date>()
 
     ngOnInit() {
         this.generateUi();
@@ -75,7 +76,8 @@ export class CalendarUiComponent implements OnInit{
                 date: i,
                 month: month,
                 year: year,
-                monthIndex: 'current'
+                monthIndex: 'current',
+                selected: false
             }
             datesArr.push(date)
         }
@@ -85,7 +87,8 @@ export class CalendarUiComponent implements OnInit{
                 date: lastDateOfPrevMonth - i,
                 month: month,
                 year: year,
-                monthIndex: 'prev'
+                monthIndex: 'prev',
+                selected: false
             }
             datesArr.unshift(date)
         }
@@ -95,7 +98,8 @@ export class CalendarUiComponent implements OnInit{
                 date: i + 1,
                 month: month,
                 year: year,
-                monthIndex: 'next'
+                monthIndex: 'next',
+                selected: false
             }
             datesArr.push(date)
         }
@@ -106,7 +110,8 @@ export class CalendarUiComponent implements OnInit{
     getUiClass(uiDate: UiDate) {
         return {
             [uiDate.monthIndex]: true,
-            'today': this.isTodayDate(uiDate)
+            today: this.isTodayDate(uiDate),
+            selected: uiDate.selected
         }
     }
 
@@ -115,5 +120,12 @@ export class CalendarUiComponent implements OnInit{
             && Number(uiDate.year) === this.todayDate().getFullYear()
             && Number(uiDate.month) === this.todayDate().getMonth()
             && Number(uiDate.date) === this.todayDate().getDate()
+    }
+
+    selectDate(uiDate: UiDate) {
+        uiDate.selected = true
+        this.day.set(this.numberToDateString(uiDate.date))
+        this.month.set(this.numberToDateString(uiDate.month))
+        this.year.set(this.numberToDateString(uiDate.year))
     }
 }

@@ -30,7 +30,7 @@
         </ul>
         <ul class="calendar-data-dates">
             <ng-container *ngFor="let uiDate of generatedUi()">
-                <li [ngClass]="getUiClass(uiDate)">
+                <li (click)="selectDate(uiDate)" [ngClass]="getUiClass(uiDate)">
                     <div class="date">
                         {{uiDate.date}}
                     </div>
