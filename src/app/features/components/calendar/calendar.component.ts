@@ -5,6 +5,7 @@ import {Overlay, OverlayConfig, OverlayRef, PositionStrategy} from "@angular/cdk
 import {ComponentPortal} from "@angular/cdk/portal";
 import {CalendarUiComponent} from "./calendar-ui/calendar-ui.component";
 import {Observable, Subject, takeUntil, tap} from "rxjs";
+import {NumberToDateString} from "./utility/number-to-date-string.utility";
 
 @Component({
     selector: 'app-calendar',
@@ -26,8 +27,10 @@ export class CalendarComponent {
             this.overlayRef.set(this.createOverlay(attachToThis));
             const portal = overlayRef.attach(this.createPortal());
 
-            console.log(this.selectedStartDate())
             portal.instance.selectedDate = this.selectedStartDate
+            portal.instance.day.set(NumberToDateString(this.selectedStartDate()?.getDate()))
+            portal.instance.month.set(NumberToDateString(this.selectedStartDate()?.getMonth()))
+            portal.instance.year.set(NumberToDateString(this.selectedStartDate()?.getFullYear()))
             this.listenBackdropChanges(overlayRef).subscribe()
         }
     }
