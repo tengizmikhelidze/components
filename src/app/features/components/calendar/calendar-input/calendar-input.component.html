@@ -15,7 +15,7 @@
                (click)="$event.stopImmediatePropagation()"
                (focusout)="focusOut(startMonth, 'month')"
                (input)="onChange(startMonth, startYearInput)"
-               [value]="inputMonthValue()">
+               [(ngModel)]="startMonth">
         /
         <input #startYearInput
                class="date-input date-input__start date-input__start__year"

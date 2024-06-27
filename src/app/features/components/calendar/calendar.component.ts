@@ -1,4 +1,4 @@
-import {Component, ElementRef, inject, signal} from '@angular/core';
+import {Component, ElementRef, inject, model, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CalendarInputComponent} from "./calendar-input/calendar-input.component";
 import {Overlay, OverlayConfig, OverlayRef, PositionStrategy} from "@angular/cdk/overlay";
@@ -15,9 +15,7 @@ import {Observable, Subject, takeUntil, tap} from "rxjs";
 })
 export class CalendarComponent {
     private overlay = inject(Overlay);
-    startDay = signal(undefined)
-    startMonth = signal(undefined)
-    startYear = signal(undefined)
+    selectedStartDate = model<Date | undefined>(undefined)
     overlayRef = signal<OverlayRef | undefined>(undefined)
     $destroyOverLayRef: Subject<void> = new Subject()
 
@@ -28,9 +26,8 @@ export class CalendarComponent {
             this.overlayRef.set(this.createOverlay(attachToThis));
             const portal = overlayRef.attach(this.createPortal());
 
-            portal.instance.day = this.startDay
-            portal.instance.month = this.startMonth
-            portal.instance.year = this.startYear
+            console.log(this.selectedStartDate())
+            portal.instance.selectedDate = this.selectedStartDate
             this.listenBackdropChanges(overlayRef).subscribe()
         }
     }

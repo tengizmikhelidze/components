@@ -13,7 +13,7 @@ import {ChevronOptions, UiDate} from "../interfaces";
     templateUrl: './calendar-ui.component.html',
     styleUrl: './calendar-ui.component.scss',
 })
-export class CalendarUiComponent implements OnInit{
+export class CalendarUiComponent implements OnInit {
     readonly numberToMonth = NumberToMonth;
     readonly numberToDateString = NumberToDateString;
     readonly chevronLeft = faChevronLeft
@@ -23,7 +23,7 @@ export class CalendarUiComponent implements OnInit{
     month = signal<string | undefined>(undefined)
     year = signal<string | undefined>(undefined)
     generatedUi = signal<UiDate[]>([])
-    selectedDate = model<Date>()
+    selectedDate = model<Date | undefined>()
 
     ngOnInit() {
         this.generateUi();
@@ -32,7 +32,7 @@ export class CalendarUiComponent implements OnInit{
     chevronHandler(signaler: WritableSignal<string | undefined>, chevronType: 'left' | 'right', options?: ChevronOptions) {
         signaler.update(value => {
             let tempData = (Number(value) || this.todayDate().getMonth()) + (chevronType === 'left' ? -1 : 1)
-            if(options){
+            if (options) {
                 tempData = this.checkChevronOptions(tempData, options)
             }
             return this.numberToDateString(tempData)
@@ -41,10 +41,10 @@ export class CalendarUiComponent implements OnInit{
     }
 
     checkChevronOptions(tempData: number, options: ChevronOptions): number {
-        if(options.maxValue) {
+        if (options.maxValue) {
             tempData = tempData > options.maxValue ? options.maxValue : tempData
         }
-        if(options.minValue) {
+        if (options.minValue) {
             tempData = tempData < options.minValue ? options.minValue : tempData
         }
 
@@ -76,30 +76,27 @@ export class CalendarUiComponent implements OnInit{
                 date: i,
                 month: month,
                 year: year,
-                monthIndex: 'current',
-                selected: false
+                monthIndex: 'current'
             }
             datesArr.push(date)
         }
 
-        for(let i = 0; i < numbersBeforeFirstDate; i++) {
+        for (let i = 0; i < numbersBeforeFirstDate; i++) {
             let date: UiDate = {
                 date: lastDateOfPrevMonth - i,
                 month: month,
                 year: year,
-                monthIndex: 'prev',
-                selected: false
+                monthIndex: 'prev'
             }
             datesArr.unshift(date)
         }
 
-        for(let i = 0; i < numbersAfterLastDate; i++) {
+        for (let i = 0; i < numbersAfterLastDate; i++) {
             let date: UiDate = {
                 date: i + 1,
                 month: month,
                 year: year,
-                monthIndex: 'next',
-                selected: false
+                monthIndex: 'next'
             }
             datesArr.push(date)
         }
@@ -111,7 +108,7 @@ export class CalendarUiComponent implements OnInit{
         return {
             [uiDate.monthIndex]: true,
             today: this.isTodayDate(uiDate),
-            selected: uiDate.selected
+            selected: this.isDateSelected(uiDate)
         }
     }
 
@@ -123,9 +120,13 @@ export class CalendarUiComponent implements OnInit{
     }
 
     selectDate(uiDate: UiDate) {
-        uiDate.selected = true
-        this.day.set(this.numberToDateString(uiDate.date))
-        this.month.set(this.numberToDateString(uiDate.month))
-        this.year.set(this.numberToDateString(uiDate.year))
+        this.selectedDate.set(new Date(uiDate.year, uiDate.month, uiDate.date))
+    }
+
+    isDateSelected(uiDate: UiDate) {
+        return uiDate.monthIndex === 'current'
+            && this.selectedDate()?.getFullYear() === uiDate.year
+            && this.selectedDate()?.getMonth() === uiDate.month
+            && this.selectedDate()?.getDate() === uiDate.date
     }
 }

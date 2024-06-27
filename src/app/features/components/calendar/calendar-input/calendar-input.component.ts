@@ -1,4 +1,4 @@
-import {Component, computed, effect, ElementRef, model, output, signal, ViewChild, WritableSignal} from '@angular/core';
+import {Component, computed, ElementRef, model, output, ViewChild, WritableSignal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from "@angular/forms";
 import {NumberToDateString} from "../utility/number-to-date-string.utility";
@@ -15,6 +15,7 @@ export class CalendarInputComponent {
   startDay = model<string | undefined>(undefined)
   startMonth = model<string | undefined>(undefined)
   startYear = model<string | undefined>(undefined)
+  selectedStartDate = model<Date | undefined>()
 
   inputMonthValue = computed<string>(()=> {
     if(this.startMonth()) {
@@ -36,6 +37,7 @@ export class CalendarInputComponent {
     let valueNumber = Number(valueSignal());
 
     if(valueNumber < 10) {
+      console.log(valueNumber)
       valueSignal.set('0' + valueNumber.toString())
     }
 
@@ -54,6 +56,8 @@ export class CalendarInputComponent {
     if(valueNumber <= 0) {
       valueSignal.set('01')
     }
+
+    this.selectDate();
   }
 
   onChange(valueSignal: WritableSignal<string | undefined>, inputElement?: HTMLInputElement) {
@@ -64,5 +68,16 @@ export class CalendarInputComponent {
         inputElement.focus()
       }
     }
+
+    this.selectDate();
+  }
+
+  selectDate() {
+    let year = Number(this.startYear())
+    let month = Number(this.startMonth())
+    let day = Number(this.startDay())
+    let date = new Date(year, month - 1, day)
+
+    this.selectedStartDate.set(new Date(date))
   }
 }

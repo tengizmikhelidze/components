@@ -1,10 +1,5 @@
 <main>
     <div class="main-content">
-        <app-calendar-input [(startDay)]="startDay"
-                            [(startMonth)]="startMonth"
-                            [(startYear)]="startYear"
-                            (inputClicked)="inputClicked($event)"
-        >
-        </app-calendar-input>
+        <app-calendar-input (inputClicked)="inputClicked($event)" [(selectedStartDate)]="selectedStartDate"></app-calendar-input>
     </div>
 </main>
