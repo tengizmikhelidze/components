@@ -5,6 +5,7 @@ import {faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {NumberToMonth} from "../utility";
 import {NumberToDateString} from "../utility/number-to-date-string.utility";
 import {ChevronOptions, UiDate} from "../interfaces";
+import {isValidDate} from "rxjs/internal/util/isDate";
 
 @Component({
     selector: 'app-calendar-ui',
@@ -56,6 +57,7 @@ export class CalendarUiComponent implements OnInit {
         this.day.set(this.numberToDateString(new Date(today).getDate()))
         this.month.set(this.numberToDateString(new Date(today).getMonth()))
         this.year.set(this.numberToDateString(new Date(today).getFullYear()));
+        this.selectedDate.set(new Date(today))
         this.generateUi()
     }
 
@@ -128,5 +130,9 @@ export class CalendarUiComponent implements OnInit {
             && this.selectedDate()?.getFullYear() === uiDate.year
             && this.selectedDate()?.getMonth() === uiDate.month
             && this.selectedDate()?.getDate() === uiDate.date
+    }
+
+    isDateValid(date: Date | undefined) {
+        return isValidDate(date)
     }
 }

@@ -37,7 +37,6 @@ export class CalendarInputComponent {
     let valueNumber = Number(valueSignal());
 
     if(valueNumber < 10) {
-      console.log(valueNumber)
       valueSignal.set('0' + valueNumber.toString())
     }
 
@@ -60,15 +59,7 @@ export class CalendarInputComponent {
     this.selectDate();
   }
 
-  onChange(valueSignal: WritableSignal<string | undefined>, inputElement?: HTMLInputElement) {
-    let value = valueSignal();
-
-    if(value?.length === 2) {
-      if(inputElement) {
-        inputElement.focus()
-      }
-    }
-
+  onChange() {
     this.selectDate();
   }
 

@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="selected-dates">
-        <span>{{selectedDate() | date: 'dd MMMM, YYYY'}}</span>
+        <span *ngIf="isDateValid(selectedDate())">{{selectedDate() | date: 'dd MMMM, YYYY'}}</span>
     </div>
     <div class="calendar-data">
         <ul class="calendar-data-weeks">
