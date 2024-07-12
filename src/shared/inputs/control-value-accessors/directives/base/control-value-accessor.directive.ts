@@ -1,21 +1,24 @@
-import {Directive, Inject, Injector, OnInit} from '@angular/core';
+import { Directive, Inject, Injector, OnInit } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
   FormControlDirective,
   FormControlName,
   FormGroupDirective,
-  NgControl, Validators
+  NgControl,
+  NgModel,
+  Validators
 } from "@angular/forms";
-import {distinctUntilChanged, startWith, Subject, takeUntil, tap} from "rxjs";
+import { distinctUntilChanged, startWith, Subject, takeUntil, tap } from "rxjs";
 
 @Directive({
   selector: '[appControlValueAccessor]',
   standalone: true,
 })
 export class ControlValueAccessorDirective<T> implements ControlValueAccessor, OnInit {
-  control!: FormControl<T | any> | NgControl;
+  control!: FormControl<T | any>;
   isRequired = false;
+  isReactiveForm = false;
 
   private _isDisabled = false;
   private _destroy$ = new Subject<void>();
@@ -35,7 +38,7 @@ export class ControlValueAccessorDirective<T> implements ControlValueAccessor, O
 
   ngOnInit() {
     this.setFormControl();
-    if(this.control instanceof FormControl){
+    if (this.control instanceof FormControl) {
       this.isRequired = this.control?.hasValidator(Validators.required) ?? false;
     }
   }
@@ -44,13 +47,17 @@ export class ControlValueAccessorDirective<T> implements ControlValueAccessor, O
     try {
       const control = this.injector.get(NgControl);
 
-      if(control instanceof FormControlName) {
+      if (control instanceof FormControlName) {
         this.control = this.injector
             .get(FormGroupDirective)
             .getControl(control as FormControlName);
-      } else if (!(this.control instanceof NgControl)) {
-        this.control = (control as FormControlDirective)
-            .form as FormControl;
+        this.isReactiveForm = true;
+      } else if (control instanceof FormControlDirective) {
+        this.control = control.form as FormControl;
+        this.isReactiveForm = true;
+      } else if (control instanceof NgModel) {
+        this.control = new FormControl(control.model);
+        this.isReactiveForm = false;
       }
 
     } catch (err) {
@@ -59,7 +66,7 @@ export class ControlValueAccessorDirective<T> implements ControlValueAccessor, O
   }
 
   writeValue(value: T): void {
-    if(this.control instanceof FormControl){
+    if (this.control instanceof FormControl) {
       this.control
           ? this.control.setValue(value)
           : (this.control = new FormControl<T>(value));
@@ -69,13 +76,12 @@ export class ControlValueAccessorDirective<T> implements ControlValueAccessor, O
   }
 
   registerOnChange(fn: (val: T | any) => T): void {
-    if(this.control instanceof FormControl) {
+    if (this.control instanceof FormControl) {
       this.control?.valueChanges
           .pipe(
               takeUntil(this._destroy$),
               startWith(this.control.value),
               distinctUntilChanged(),
-              tap((val) => fn(val)),
               tap((val) => fn(val))
           )
           .subscribe(() => (this.control as FormControl)?.markAsUntouched());
@@ -85,7 +91,7 @@ export class ControlValueAccessorDirective<T> implements ControlValueAccessor, O
   }
 
   registerOnTouched(fn: () => T): void {
-    if(this.control instanceof FormControl) {
+    if (this.control instanceof FormControl) {
       this.control?.markAllAsTouched()
     }
 

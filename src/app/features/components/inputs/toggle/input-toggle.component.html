@@ -1,5 +1,16 @@
 <div class="toggle-wrapper">
     <div class="toggle-slider">
-
+        <input
+                *ngIf="isReactiveForm"
+                type="number"
+                [id]="inputOptions().id"
+                [formControl]="control"
+        />
+        <input
+                *ngIf="!isReactiveForm"
+                type="number"
+                [id]="inputOptions().id"
+                [(ngModel)]="myValue"
+        />
     </div>
 </div>
