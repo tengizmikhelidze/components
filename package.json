@@ -23,6 +23,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@nx/angular": "19.2.1",
     "rxjs": "~7.8.0",
+    "rxjs-interop": "^2.0.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },

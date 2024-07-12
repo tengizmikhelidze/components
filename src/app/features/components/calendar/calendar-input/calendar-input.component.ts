@@ -1,6 +1,9 @@
-import {Component, computed, ElementRef, model, output, ViewChild, WritableSignal} from '@angular/core';
+import {Component, ElementRef, model, output, ViewChild, WritableSignal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from "@angular/forms";
+import {toObservable} from "@angular/core/rxjs-interop";
+import {Observable, tap} from "rxjs";
+import {isValidDate} from "rxjs/internal/util/isDate";
 import {NumberToDateString} from "../utility/number-to-date-string.utility";
 
 @Component({
@@ -17,16 +20,13 @@ export class CalendarInputComponent {
   startYear = model<string | undefined>(undefined)
   selectedStartDate = model<Date | undefined>()
 
-  inputMonthValue = computed<string>(()=> {
-    if(this.startMonth()) {
-      return NumberToDateString(Number(this.startMonth()) + 1)
-    }
-
-    return ''
-  })
   @ViewChild('inputWrapperElement') inputWrapperElement: ElementRef | undefined;
   inputClicked = output<ElementRef | undefined>()
 
+
+  constructor() {
+    this.listenSelectedStartDateChange().subscribe()
+  }
 
   inputClickedHandler(startDayInput: HTMLInputElement) {
     startDayInput.focus()
@@ -70,5 +70,26 @@ export class CalendarInputComponent {
     let date = new Date(year, month - 1, day)
 
     this.selectedStartDate.set(new Date(date))
+  }
+
+  listenSelectedStartDateChange(): Observable<Date | undefined> {
+    return toObservable(this.selectedStartDate)
+        .pipe(
+           tap((data)=>{
+             if(isValidDate(data)){
+               this.setSelectedDateToInputs(data)
+             }
+           })
+        )
+  }
+
+  setSelectedDateToInputs(selectedDate: Date){
+    let year = selectedDate.getFullYear()
+    let month = selectedDate.getMonth() + 1;
+    let day = selectedDate.getDate()
+
+    this.startYear.set(NumberToDateString(year))
+    this.startMonth.set(NumberToDateString(month))
+    this.startDay.set(NumberToDateString(day))
   }
 }

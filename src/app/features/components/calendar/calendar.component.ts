@@ -51,11 +51,12 @@ export class CalendarComponent {
         return this.overlay.position()
             .flexibleConnectedTo(attachToThis)
             .withFlexibleDimensions(false)
+            .withDefaultOffsetY(2)
             .withPositions(
                 [
                     {
                         originX: 'start',
-                        originY: 'top',
+                        originY: 'bottom',
                         overlayX: 'start',
                         overlayY: 'top'
                     }
