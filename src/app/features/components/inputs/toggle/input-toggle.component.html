@@ -1,20 +1,14 @@
 <div class="toggle-wrapper">
     <input
-            min="0"
-            max="100"
-            step="100"
             *ngIf="isReactiveForm"
-            type="range"
+            type="checkbox"
             [id]="inputOptions().id"
             [formControl]="control"
             (click)="onThumbClick()"
     />
     <input
-            min="0"
-            max="100"
-            step="100"
             *ngIf="!isReactiveForm"
-            type="range"
+            type="checkbox"
             [id]="inputOptions().id"
             [(ngModel)]="myValue"
             (click)="onThumbClick()"
