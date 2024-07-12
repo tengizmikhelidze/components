@@ -25,4 +25,8 @@ export class InputToggleComponent extends BooleanValueAccessorDirective {
     id: 'toggle-id',
     required: false
   })
+
+  onThumbClick() {
+    console.log()
+  }
 }

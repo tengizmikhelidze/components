@@ -1,16 +1,22 @@
 <div class="toggle-wrapper">
-    <div class="toggle-slider">
-        <input
-                *ngIf="isReactiveForm"
-                type="number"
-                [id]="inputOptions().id"
-                [formControl]="control"
-        />
-        <input
-                *ngIf="!isReactiveForm"
-                type="number"
-                [id]="inputOptions().id"
-                [(ngModel)]="myValue"
-        />
-    </div>
+    <input
+            min="0"
+            max="100"
+            step="100"
+            *ngIf="isReactiveForm"
+            type="range"
+            [id]="inputOptions().id"
+            [formControl]="control"
+            (click)="onThumbClick()"
+    />
+    <input
+            min="0"
+            max="100"
+            step="100"
+            *ngIf="!isReactiveForm"
+            type="range"
+            [id]="inputOptions().id"
+            [(ngModel)]="myValue"
+            (click)="onThumbClick()"
+    />
 </div>
