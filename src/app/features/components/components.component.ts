@@ -24,7 +24,7 @@ export class ComponentsComponent {
     },
     {
       label: 'toggle',
-      routerLink: 'toggle',
+      routerLink: 'inputs/toggle',
       icon: this.toggleIcon
     },
     {

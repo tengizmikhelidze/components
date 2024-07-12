@@ -8,15 +8,13 @@
                [(ngModel)]="startDay"
         >
         /
-        <input #startMonthInput
-               class="date-input date-input__start date-input__start__month"
+        <input class="date-input date-input__start date-input__start__month"
                placeholder="00"
                (focusout)="focusOut(startMonth, 'month')"
                (input)="onChange()"
                [(ngModel)]="startMonth">
         /
-        <input #startYearInput
-               class="date-input date-input__start date-input__start__year"
+        <input class="date-input date-input__start date-input__start__year"
                placeholder="0000"
                (focusout)="focusOut(startYear, 'year')"
                (input)="onChange()"

@@ -1,4 +1,4 @@
-import { Route } from '@angular/router';
+import {Route} from '@angular/router';
 import {ComponentsComponent} from "./components.component";
 
 export const componentsRoutes: Route[] = [
@@ -14,6 +14,10 @@ export const componentsRoutes: Route[] = [
             {
                 path: 'calendar',
                 loadChildren: () => import('./calendar/calendar.routes').then(r=>r.calendarRoutes)
+            },
+            {
+                path: 'inputs',
+                loadChildren: () => import('./inputs/inputs.routes').then(r=>r.InputsRoutes)
             }
         ]
     }
