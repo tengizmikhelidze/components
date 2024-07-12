@@ -1,0 +1,48 @@
+:host {
+  .toggle-input {
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+
+    width: 50px;
+    height: 25px;
+
+    border-radius: 20px;
+    border: 1px solid #343a40;
+
+    background: #e7e7e7;
+    transition: 0.3s;
+
+    &::before {
+      content: "";
+
+      width: 25px;
+      height: 24px;
+
+      background-color: #fff;
+
+      border-radius: 50px;
+      border: 1px solid #343a40;
+
+      transform: translate(-0.5px, -0.5px);
+      transition: 0.3s;
+
+      display: flex;
+    }
+
+    &:checked {
+      background-color: #343a4050;
+
+      transition: 0.3s;
+    }
+
+    &:checked::before {
+      content: "";
+
+      background-color: #343a4090;
+
+      transition: 0.3s;
+      transform: translate( calc(100% - 1.5px) , -0.5px);
+    }
+  }
+}

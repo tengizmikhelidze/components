@@ -2,15 +2,19 @@
     <input
             *ngIf="isReactiveForm"
             type="checkbox"
+            class="toggle-input"
             [id]="inputOptions().id"
             [formControl]="control"
+            [class]="inputOptions().styleClass"
             (click)="onThumbClick()"
     />
     <input
             *ngIf="!isReactiveForm"
             type="checkbox"
+            class="toggle-input"
             [id]="inputOptions().id"
             [(ngModel)]="myValue"
+            [class]="inputOptions().styleClass"
             (click)="onThumbClick()"
     />
 </div>

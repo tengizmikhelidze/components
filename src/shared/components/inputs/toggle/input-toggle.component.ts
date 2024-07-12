@@ -1,10 +1,10 @@
 import {Component, forwardRef, model} from '@angular/core';
 import {FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from "@angular/forms";
-import {
-  BooleanValueAccessorDirective
-} from "../../../../../shared/inputs/control-value-accessors/directives/boolean/boolean-value-accessor.directive";
 import {ToggleInputOptions} from "./interfaces/toggle-input-options.interface";
 import {CommonModule} from "@angular/common";
+import {
+  BooleanValueAccessorDirective
+} from "../../../inputs/control-value-accessors/directives/boolean/boolean-value-accessor.directive";
 
 @Component({
   selector: 'app-input-toggle',
