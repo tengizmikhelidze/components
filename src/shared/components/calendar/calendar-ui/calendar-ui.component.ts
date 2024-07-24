@@ -59,7 +59,7 @@ export class CalendarUiComponent implements OnInit {
         this.day.set(this.numberToDateString(new Date(today).getDate()))
         this.month.set(this.numberToDateString(new Date(today).getMonth()))
         this.year.set(this.numberToDateString(new Date(today).getFullYear()));
-        this.selectedStartDate.set(new Date(today))
+        this.setStartDate(new Date(today))
         this.generateUi()
     }
 
