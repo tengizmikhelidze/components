@@ -1,1 +1,14 @@
-<app-calendar></app-calendar>
+<div class="calendar-showcase">
+    <div class="show single">
+        <div class="label">
+            Single
+        </div>
+        <app-calendar></app-calendar>
+    </div>
+    <div class="show range">
+        <div class="label">
+            Range
+        </div>
+        <app-calendar [mode]="'range'"></app-calendar>
+    </div>
+</div>

@@ -1,1 +1,5 @@
-<app-calendar-input (inputClicked)="inputClicked($event)" [(selectedStartDate)]="selectedStartDate"></app-calendar-input>
+<app-calendar-input [mode]="mode()"
+                    (inputClicked)="inputClicked($event)"
+                    [(selectedStartDate)]="selectedStartDate"
+                    [(selectedEndDate)]="selectedEndDate">
+</app-calendar-input>

@@ -1,0 +1,10 @@
+.calendar-showcase {
+  display: flex;
+  gap: 30px;
+}
+
+.show {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-row-gap: 8px;
+}

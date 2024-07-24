@@ -4,20 +4,44 @@
                class="date-input date-input__start date-input__start__day"
                placeholder="00"
                (focusout)="focusOut(startDay, 'day')"
-               (input)="onChange()"
+               (input)="onStartDateChange()"
                [(ngModel)]="startDay"
         >
         /
         <input class="date-input date-input__start date-input__start__month"
                placeholder="00"
                (focusout)="focusOut(startMonth, 'month')"
-               (input)="onChange()"
+               (input)="onStartDateChange()"
                [(ngModel)]="startMonth">
         /
         <input class="date-input date-input__start date-input__start__year"
                placeholder="0000"
                (focusout)="focusOut(startYear, 'year')"
-               (input)="onChange()"
+               (input)="onStartDateChange()"
                [(ngModel)]="startYear">
     </div>
+    @if(mode()==='range') {
+        -
+        <div class="calendar-input-content">
+            <input #startDayInput
+                   class="date-input date-input__start date-input__start__day"
+                   placeholder="00"
+                   (focusout)="focusOut(endDay, 'day')"
+                   (input)="onEndDateChange()"
+                   [(ngModel)]="endDay"
+            >
+            /
+            <input class="date-input date-input__start date-input__start__month"
+                   placeholder="00"
+                   (focusout)="focusOut(endMonth, 'month')"
+                   (input)="onEndDateChange()"
+                   [(ngModel)]="endMonth">
+            /
+            <input class="date-input date-input__start date-input__start__year"
+                   placeholder="0000"
+                   (focusout)="focusOut(endYear, 'year')"
+                   (input)="onEndDateChange()"
+                   [(ngModel)]="endYear">
+        </div>
+    }
 </div>

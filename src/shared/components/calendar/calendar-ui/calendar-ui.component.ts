@@ -1,4 +1,4 @@
-import {Component, model, OnInit, signal, WritableSignal} from '@angular/core';
+import {Component, input, model, OnInit, signal, WritableSignal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
@@ -20,11 +20,13 @@ export class CalendarUiComponent implements OnInit {
     readonly chevronLeft = faChevronLeft
     readonly chevronRight = faChevronRight
     todayDate = signal<Date>(new Date())
+    mode = input<'single' | 'range'>('single')
     day = signal<string | undefined>(undefined)
     month = signal<string | undefined>(undefined)
     year = signal<string | undefined>(undefined)
     generatedUi = signal<UiDate[]>([])
-    selectedDate = model<Date | undefined>()
+    selectedStartDate = model<Date | undefined>()
+    selectedEndDate = model<Date | undefined>()
 
     ngOnInit() {
         this.generateUi();
@@ -57,13 +59,12 @@ export class CalendarUiComponent implements OnInit {
         this.day.set(this.numberToDateString(new Date(today).getDate()))
         this.month.set(this.numberToDateString(new Date(today).getMonth()))
         this.year.set(this.numberToDateString(new Date(today).getFullYear()));
-        this.selectedDate.set(new Date(today))
+        this.selectedStartDate.set(new Date(today))
         this.generateUi()
     }
 
     generateUi() {
         const datesArr: UiDate[] = [];
-        const day = Number(this.day()) || this.todayDate().getDate();
         const month = Number(this.month()) || this.todayDate().getMonth();
         const year = Number(this.year()) || this.todayDate().getFullYear();
 
@@ -122,17 +123,60 @@ export class CalendarUiComponent implements OnInit {
     }
 
     selectDate(uiDate: UiDate) {
-        this.selectedDate.set(new Date(uiDate.year, uiDate.month, uiDate.date))
+        let selectedDate = new Date(uiDate.year, uiDate.month, uiDate.date)
+        switch (this.mode()) {
+            case "range": this.selectRangeDate(selectedDate); break;
+
+            default: {
+                this.setStartDate(selectedDate)
+            }
+        }
+    }
+
+    selectRangeDate(selectedDate: Date) {
+        if(
+            (!this.selectedStartDate() || !this.isDateValid(this.selectedStartDate()))
+            || selectedDate.getTime() < (this.selectedStartDate() as Date).getTime()
+            || (!!this.selectedStartDate() && !!this.selectedEndDate())
+        ) {
+            this.setStartDate(selectedDate)
+            return;
+        }
+
+        this.selectedEndDate.set(new Date(selectedDate))
+    }
+
+    setStartDate(date: Date) {
+        this.selectedStartDate.set(new Date(date))
+        this.selectedEndDate.set(undefined)
     }
 
     isDateSelected(uiDate: UiDate) {
+        switch (this.mode()) {
+            case "range":
+                return this.isRangeDateSelected(uiDate);
+            default:
+                return this.isSingleDateSelected(uiDate)
+        }
+    }
+
+    isSingleDateSelected(uiDate: UiDate): boolean {
         return uiDate.monthIndex === 'current'
-            && this.selectedDate()?.getFullYear() === uiDate.year
-            && this.selectedDate()?.getMonth() === uiDate.month
-            && this.selectedDate()?.getDate() === uiDate.date
+            && this.selectedStartDate()?.getFullYear() === uiDate.year
+            && this.selectedStartDate()?.getMonth() === uiDate.month
+            && this.selectedStartDate()?.getDate() === uiDate.date
+    }
+
+    isRangeDateSelected(uiDate: UiDate): boolean {
+        let selectedDate = new Date(uiDate.year, uiDate.month, uiDate.date)
+        return uiDate.monthIndex === 'current'
+            && !!this.selectedStartDate()
+            && (this.selectedStartDate() as Date).getTime() <= selectedDate.getTime()
+            && (this.selectedEndDate() || this.selectedStartDate() as Date).getTime() >= selectedDate.getTime()
     }
 
     isDateValid(date: Date | undefined) {
         return isValidDate(date)
     }
+
 }

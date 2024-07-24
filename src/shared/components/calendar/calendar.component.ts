@@ -1,4 +1,4 @@
-import {Component, ElementRef, inject, model, signal} from '@angular/core';
+import {Component, ElementRef, inject, input, model, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CalendarInputComponent} from "./calendar-input/calendar-input.component";
 import {Overlay, OverlayConfig, OverlayRef, PositionStrategy} from "@angular/cdk/overlay";
@@ -16,7 +16,9 @@ import {NumberToDateString} from "./utility/number-to-date-string.utility";
 })
 export class CalendarComponent {
     private overlay = inject(Overlay);
+    mode = input<"single" | "range">("single")
     selectedStartDate = model<Date | undefined>(undefined)
+    selectedEndDate = model<Date | undefined>(undefined)
     overlayRef = signal<OverlayRef | undefined>(undefined)
     $destroyOverLayRef: Subject<void> = new Subject()
 
@@ -27,10 +29,15 @@ export class CalendarComponent {
             this.overlayRef.set(this.createOverlay(attachToThis));
             const portal = overlayRef.attach(this.createPortal());
 
-            portal.instance.selectedDate = this.selectedStartDate
+            portal.instance.selectedStartDate = this.selectedStartDate
             portal.instance.day.set(NumberToDateString(this.selectedStartDate()?.getDate()))
             portal.instance.month.set(NumberToDateString(this.selectedStartDate()?.getMonth()))
             portal.instance.year.set(NumberToDateString(this.selectedStartDate()?.getFullYear()))
+
+            if(this.mode() === 'range') {
+                portal.instance.mode = this.mode
+                portal.instance.selectedEndDate = this.selectedEndDate
+            }
             this.listenBackdropChanges(overlayRef).subscribe()
         }
     }
