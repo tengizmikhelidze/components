@@ -43,5 +43,7 @@
                    [(ngModel)]="endYear">
         </div>
     }
-    <fa-icon id="show-calendar-icon" [icon]="calendarIcon" (click)="inputClickedHandler()"></fa-icon>
+    <div class="calendar-icon-wrapper" (click)="inputClickedHandler()">
+        <fa-icon id="show-calendar-icon" [icon]="calendarIcon"></fa-icon>
+    </div>
 </div>

@@ -1,5 +1,8 @@
 <app-calendar-input [mode]="mode()"
                     (inputClicked)="inputClicked($event)"
                     [(selectedStartDate)]="selectedStartDate"
-                    [(selectedEndDate)]="selectedEndDate">
+                    [(selectedEndDate)]="selectedEndDate"
+                    [selectedStartDateInput]="selectedStartAfterPopupClosed()"
+                    [selectedEndDateInput]="selectedEndDateAfterPopupClosed()"
+>
 </app-calendar-input>

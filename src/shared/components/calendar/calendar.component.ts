@@ -20,6 +20,8 @@ export class CalendarComponent {
     mode = input<"single" | "range">("single")
     selectedStartDate = model<Date | undefined>(undefined)
     selectedEndDate = model<Date | undefined>(undefined)
+    selectedStartAfterPopupClosed = signal<Date | undefined>(undefined)
+    selectedEndDateAfterPopupClosed = signal<Date | undefined>(undefined)
     changeDate = output<[Date | undefined, Date | undefined]>()
     overlayRef = signal<OverlayRef | undefined>(undefined)
     $destroyOverLayRef: Subject<void> = new Subject()
@@ -54,6 +56,8 @@ export class CalendarComponent {
                     this.overlayRef.set(undefined);
                     this.$destroyOverLayRef.next()
                     this.changeDate.emit([this.selectedStartDate(), this.selectedEndDate()])
+                    this.selectedStartAfterPopupClosed.set(this.selectedStartDate())
+                    this.selectedEndDateAfterPopupClosed.set(this.selectedEndDate())
                 })
             )
     }
