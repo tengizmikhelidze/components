@@ -63,11 +63,10 @@ export class ControlValueAccessorDirective<T> implements ControlValueAccessor, O
     } catch (err) {
       this.control = new FormControl();
     }
-
-    this.control.markAsUntouched()
   }
 
-  writeValue(value: T): void {}
+  writeValue(value: T): void {
+  }
 
   registerOnChange(fn: (val: T | any) => T): void {
     this.control?.valueChanges
