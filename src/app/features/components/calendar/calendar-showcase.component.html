@@ -1,14 +1,14 @@
-<div class="calendar-showcase">
+<form class="calendar-showcase" [formGroup]="form">
     <div class="show single">
         <div class="label">
             Single
         </div>
-        <app-calendar [(ngModel)]="value" (ngModelChange)="c()"></app-calendar>
+        <app-calendar formControlName="calendar1"></app-calendar>
     </div>
-<!--    <div class="show range">-->
-<!--        <div class="label">-->
-<!--            Range-->
-<!--        </div>-->
-<!--        <app-calendar [mode]="'range'"></app-calendar>-->
-<!--    </div>-->
-</div>
+    <div class="show range">
+        <div class="label">
+            Range
+        </div>
+        <app-calendar [mode]="'range'" formControlName="calendar2"></app-calendar>
+    </div>
+</form>

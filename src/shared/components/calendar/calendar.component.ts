@@ -1,4 +1,16 @@
-import {Component, ElementRef, forwardRef, inject, input, model, output, signal} from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    forwardRef,
+    inject,
+    input,
+    model,
+    OnChanges,
+    OnInit,
+    output,
+    signal
+} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CalendarInputComponent} from "./calendar-input/calendar-input.component";
 import {Overlay, OverlayConfig, OverlayRef, PositionStrategy} from "@angular/cdk/overlay";
@@ -25,17 +37,14 @@ import {FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from "@angular/form
         },
     ],
 })
-export class CalendarComponent extends DateValueAccessorDirective{
+export class CalendarComponent extends DateValueAccessorDirective {
     private overlay = inject(Overlay);
     mode = input<"single" | "range">("single")
     selectedStartDate = model<Date | undefined>(undefined)
     selectedEndDate = model<Date | undefined>(undefined)
-    selectedStartAfterPopupClosed = signal<Date | undefined>(undefined)
-    selectedEndDateAfterPopupClosed = signal<Date | undefined>(undefined)
     changeDate = output<[Date | undefined, Date | undefined]>()
     overlayRef = signal<OverlayRef | undefined>(undefined)
     $destroyOverLayRef: Subject<void> = new Subject()
-
 
     inputClicked(attachToThis: ElementRef | undefined) {
         if (attachToThis && !this.overlayRef()) {
@@ -66,8 +75,6 @@ export class CalendarComponent extends DateValueAccessorDirective{
                     this.overlayRef.set(undefined);
                     this.$destroyOverLayRef.next()
                     this.changeDate.emit([this.selectedStartDate(), this.selectedEndDate()])
-                    this.selectedStartAfterPopupClosed.set(this.selectedStartDate())
-                    this.selectedEndDateAfterPopupClosed.set(this.selectedEndDate())
                     this.control.setValue([this.selectedStartDate(), this.selectedEndDate()])
                 })
             )

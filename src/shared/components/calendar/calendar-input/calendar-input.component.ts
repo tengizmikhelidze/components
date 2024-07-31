@@ -23,14 +23,12 @@ export class CalendarInputComponent {
   startMonth = model<string | undefined>(undefined)
   startYear = model<string | undefined>(undefined)
   selectedStartDate = model<Date | undefined>()
-  selectedStartDateInput = input.required<Date | undefined>()
 
 
   endDay = model<string | undefined>(undefined)
   endMonth = model<string | undefined>(undefined)
   endYear = model<string | undefined>(undefined)
   selectedEndDate = model<Date | undefined>()
-  selectedEndDateInput = input.required<Date | undefined>();
 
   @ViewChild('inputWrapperElement') inputWrapperElement: ElementRef | undefined;
   inputClicked = output<ElementRef | undefined>()

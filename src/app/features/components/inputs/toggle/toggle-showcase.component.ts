@@ -15,7 +15,7 @@ import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 })
 export class ToggleShowcaseComponent {
   form = this.fb.group({
-    toggle1: ['']
+    toggle1: [false]
   })
   toggle1Options = signal<ToggleInputOptions>({
     id: 'toggle-1',
