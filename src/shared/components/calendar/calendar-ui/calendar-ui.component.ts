@@ -1,4 +1,4 @@
-import {Component, input, model, OnInit, signal, WritableSignal} from '@angular/core';
+import {Component, input, model, OnInit, output, signal, WritableSignal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
@@ -25,8 +25,8 @@ export class CalendarUiComponent implements OnInit {
     month = signal<string | undefined>(undefined)
     year = signal<string | undefined>(undefined)
     generatedUi = signal<UiDate[]>([])
-    selectedStartDate = model<Date | undefined>()
-    selectedEndDate = model<Date | undefined>()
+    selectedStartDate = signal<Date | undefined>(undefined)
+    selectedEndDate = signal<Date | undefined>(undefined)
 
     ngOnInit() {
         this.generateUi();

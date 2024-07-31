@@ -1,4 +1,4 @@
-import {Component, ElementRef, inject, input, model, output, signal} from '@angular/core';
+import {Component, ElementRef, inject, input, output, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CalendarInputComponent} from "./calendar-input/calendar-input.component";
 import {Overlay, OverlayConfig, OverlayRef, PositionStrategy} from "@angular/cdk/overlay";
@@ -18,8 +18,8 @@ import {toObservable} from "@angular/core/rxjs-interop";
 export class CalendarComponent {
     private overlay = inject(Overlay);
     mode = input<"single" | "range">("single")
-    selectedStartDate = model<Date | undefined>(undefined)
-    selectedEndDate = model<Date | undefined>(undefined)
+    selectedStartDate = signal<Date | undefined>(undefined)
+    selectedEndDate = signal<Date | undefined>(undefined)
     changeDate = output<[Date | undefined, Date | undefined]>()
     overlayRef = signal<OverlayRef | undefined>(undefined)
     $destroyOverLayRef: Subject<void> = new Subject()
@@ -95,6 +95,13 @@ export class CalendarComponent {
 
     createPortal(): ComponentPortal<CalendarUiComponent> {
         return new ComponentPortal(CalendarUiComponent)
+    }
+
+    selectedStartDateChange(value: undefined | Date) {
+        this.selectedStartDate.set(value)
+    }
+    selectedEndDateChange(value: undefined | Date) {
+        this.selectedEndDate.set(value)
     }
 
     listenSelectedDateChange(): Observable<[Date | undefined, Date | undefined]> {
