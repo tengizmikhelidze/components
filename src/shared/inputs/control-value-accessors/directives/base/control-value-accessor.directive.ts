@@ -34,14 +34,14 @@ export class ControlValueAccessorDirective<T> implements ControlValueAccessor, O
   }
   onChange = (v: T | any) => { };
 
-  constructor(@Inject(Injector) private injector: Injector) {}
+  constructor(@Inject(Injector) private injector: Injector) {
+  }
 
   ngOnInit() {
-    this.setFormControl();
-    if (this.control instanceof FormControl) {
-      this.isRequired = this.control?.hasValidator(Validators.required) ?? false;
-    }
+    this.setFormControl()
+    this.isRequired = this.control?.hasValidator(Validators.required) ?? false;
   }
+
 
   setFormControl() {
     try {
@@ -63,42 +63,37 @@ export class ControlValueAccessorDirective<T> implements ControlValueAccessor, O
     } catch (err) {
       this.control = new FormControl();
     }
+
+    this.control.markAsUntouched()
   }
 
-  writeValue(value: T): void {
-    if (this.control instanceof FormControl) {
-      this.control
-          ? this.control.setValue(value)
-          : (this.control = new FormControl<T>(value));
-    }
-
-    this.myValue = value;
-  }
+  writeValue(value: T): void {}
 
   registerOnChange(fn: (val: T | any) => T): void {
-    if (this.control instanceof FormControl) {
-      this.control?.valueChanges
-          .pipe(
-              takeUntil(this._destroy$),
-              startWith(this.control.value),
-              distinctUntilChanged(),
-              tap((val) => fn(val))
-          )
-          .subscribe(() => (this.control as FormControl)?.markAsUntouched());
-    }
+    this.control?.valueChanges
+        .pipe(
+            takeUntil(this._destroy$),
+            startWith(this.control.value),
+            distinctUntilChanged(),
+            tap((val) => fn(val))
+        )
+        .subscribe(() => (this.control as FormControl)?.markAsUntouched());
 
     this.onChange = fn;
   }
 
   registerOnTouched(fn: () => T): void {
-    if (this.control instanceof FormControl) {
-      this.control?.markAllAsTouched()
-    }
+    this.control?.markAllAsTouched()
 
     this._onTouched = fn;
   }
 
   setDisabledState?(isDisabled: boolean): void {
     this._isDisabled = isDisabled;
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 }

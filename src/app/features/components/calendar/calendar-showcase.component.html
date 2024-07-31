@@ -3,12 +3,12 @@
         <div class="label">
             Single
         </div>
-        <app-calendar></app-calendar>
+        <app-calendar [(ngModel)]="value" (ngModelChange)="c()"></app-calendar>
     </div>
-    <div class="show range">
-        <div class="label">
-            Range
-        </div>
-        <app-calendar [mode]="'range'"></app-calendar>
-    </div>
+<!--    <div class="show range">-->
+<!--        <div class="label">-->
+<!--            Range-->
+<!--        </div>-->
+<!--        <app-calendar [mode]="'range'"></app-calendar>-->
+<!--    </div>-->
 </div>

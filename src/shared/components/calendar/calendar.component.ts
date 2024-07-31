@@ -1,21 +1,31 @@
-import {Component, ElementRef, inject, input, model, output, signal} from '@angular/core';
+import {Component, ElementRef, forwardRef, inject, input, model, output, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CalendarInputComponent} from "./calendar-input/calendar-input.component";
 import {Overlay, OverlayConfig, OverlayRef, PositionStrategy} from "@angular/cdk/overlay";
 import {ComponentPortal} from "@angular/cdk/portal";
 import {CalendarUiComponent} from "./calendar-ui/calendar-ui.component";
-import {combineLatest, Observable, Subject, takeUntil, tap} from "rxjs";
+import {Observable, Subject, takeUntil, tap} from "rxjs";
 import {NumberToDateString} from "./utility/number-to-date-string.utility";
-import {toObservable} from "@angular/core/rxjs-interop";
+import {
+    DateValueAccessorDirective
+} from "../../inputs/control-value-accessors/directives/date/date-value-accessor.directive";
+import {FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
     selector: 'app-calendar',
     standalone: true,
-    imports: [CommonModule, CalendarInputComponent],
+    imports: [CommonModule, CalendarInputComponent, FormsModule, ReactiveFormsModule],
     templateUrl: './calendar.component.html',
     styleUrl: './calendar.component.scss',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => CalendarComponent),
+            multi: true,
+        },
+    ],
 })
-export class CalendarComponent {
+export class CalendarComponent extends DateValueAccessorDirective{
     private overlay = inject(Overlay);
     mode = input<"single" | "range">("single")
     selectedStartDate = model<Date | undefined>(undefined)
@@ -58,6 +68,7 @@ export class CalendarComponent {
                     this.changeDate.emit([this.selectedStartDate(), this.selectedEndDate()])
                     this.selectedStartAfterPopupClosed.set(this.selectedStartDate())
                     this.selectedEndDateAfterPopupClosed.set(this.selectedEndDate())
+                    this.control.setValue([this.selectedStartDate(), this.selectedEndDate()])
                 })
             )
     }
