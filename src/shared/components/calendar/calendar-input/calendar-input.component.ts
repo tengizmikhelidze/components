@@ -5,15 +5,18 @@ import {toObservable} from "@angular/core/rxjs-interop";
 import {Observable, tap} from "rxjs";
 import {isValidDate} from "rxjs/internal/util/isDate";
 import {NumberToDateString} from "../utility/number-to-date-string.utility";
+import {faCalendar, faCalendarDays} from "@fortawesome/free-solid-svg-icons";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 
 @Component({
   selector: 'app-calendar-input',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FaIconComponent],
   templateUrl: './calendar-input.component.html',
   styleUrl: './calendar-input.component.scss',
 })
 export class CalendarInputComponent {
+  readonly calendarIcon = faCalendarDays
 
   mode = input<"single" | "range">("single")
   startDay = model<string | undefined>(undefined)
@@ -36,10 +39,7 @@ export class CalendarInputComponent {
     this.listenSelectedEndDateChange().subscribe()
   }
 
-  inputClickedHandler(startDayInput: HTMLInputElement) {
-    if(this.mode() !== 'range') {
-      startDayInput.focus()
-    }
+  inputClickedHandler() {
     this.inputClicked.emit(this.inputWrapperElement)
   }
 

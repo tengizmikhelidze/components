@@ -15,6 +15,8 @@
 
   cursor: pointer;
   color: #2c2c2c;
+
+  position: relative;
 }
 
 .calendar-input-content {
@@ -43,4 +45,12 @@
       }
     }
   }
+}
+
+#show-calendar-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #2c2c2c;
 }

@@ -1,7 +1,6 @@
-<div class="calendar-input-wrapper" #inputWrapperElement (click)="inputClickedHandler(startDayInput)">
+<div class="calendar-input-wrapper" #inputWrapperElement>
     <div class="calendar-input-content">
-        <input #startDayInput
-               class="date-input date-input__start date-input__start__day"
+        <input class="date-input date-input__start date-input__start__day"
                placeholder="00"
                (focusout)="focusOut(startDay, 'day')"
                (input)="onStartDateChange()"
@@ -44,4 +43,5 @@
                    [(ngModel)]="endYear">
         </div>
     }
+    <fa-icon id="show-calendar-icon" [icon]="calendarIcon" (click)="inputClickedHandler()"></fa-icon>
 </div>

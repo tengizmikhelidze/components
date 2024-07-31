@@ -24,9 +24,6 @@ export class CalendarComponent {
     overlayRef = signal<OverlayRef | undefined>(undefined)
     $destroyOverLayRef: Subject<void> = new Subject()
 
-    constructor() {
-        this.listenSelectedDateChange().subscribe()
-    }
 
     inputClicked(attachToThis: ElementRef | undefined) {
         if (attachToThis && !this.overlayRef()) {
@@ -56,6 +53,7 @@ export class CalendarComponent {
                     overlayRef.detach()
                     this.overlayRef.set(undefined);
                     this.$destroyOverLayRef.next()
+                    this.changeDate.emit([this.selectedStartDate(), this.selectedEndDate()])
                 })
             )
     }
@@ -64,12 +62,11 @@ export class CalendarComponent {
         return this.overlay.position()
             .flexibleConnectedTo(attachToThis)
             .withFlexibleDimensions(false)
-            .withDefaultOffsetY(2)
             .withPositions(
                 [
                     {
                         originX: 'start',
-                        originY: 'bottom',
+                        originY: 'top',
                         overlayX: 'start',
                         overlayY: 'top'
                     }
@@ -95,14 +92,5 @@ export class CalendarComponent {
 
     createPortal(): ComponentPortal<CalendarUiComponent> {
         return new ComponentPortal(CalendarUiComponent)
-    }
-
-    listenSelectedDateChange(): Observable<[Date | undefined, Date | undefined]> {
-        return combineLatest([toObservable(this.selectedStartDate), toObservable(this.selectedEndDate)])
-            .pipe(
-                tap(([startDate, endDate])=>{
-                    this.changeDate.emit([startDate, endDate])
-                })
-            )
     }
 }
